@@ -1,5 +1,6 @@
 import styled from "styled-components"
 import {SearchIcon} from "@/components/search-icon"
+import { InputHTMLAttributes } from "react"
 
 export const PrimaryInput = styled.input`
     width: 352px;
@@ -26,10 +27,14 @@ const InputContainer = styled.div`
     }
 `
 
-export function PrimaryInputWithSearchIcon(){
+interface Inputprops extends InputHTMLAttributes<HTMLInputElement>{
+
+}
+
+export function PrimaryInputWithSearchIcon(props: Inputprops){
     return (
-        <InputContainer>
-            <PrimaryInput placeholder="Search"/>
+        <InputContainer>    
+            <PrimaryInput {...props}/>
             <SearchIcon/>
         </InputContainer>
     )

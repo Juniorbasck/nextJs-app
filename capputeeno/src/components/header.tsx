@@ -31,7 +31,7 @@ export function Header(props: HeaderProps) {
     <TagHeader>
       <Logo className={saira_Stencil_One.className}>Capputeeno</Logo>
       <div>
-        <PrimaryInputWithSearchIcon/>
+        <PrimaryInputWithSearchIcon placeholder="Procurando por algo específico?"/>
       </div>
     </TagHeader>
   );
