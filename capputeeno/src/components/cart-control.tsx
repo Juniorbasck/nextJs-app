@@ -18,13 +18,13 @@ const Container = styled.div`
     position: relative;
 `
 
-export function CartControl(){
-    const { value } = useLocalStorage('cart-items'); 
+export function CartControl() {
+    const { value } = useLocalStorage<any[]>('cart-items', []); 
     
     return(
-            <Container>
-                <CartIcon/>
-                {value.length && <CartCount>{value.length}</CartCount>}
+        <Container>
+            <CartIcon />
+            {value.length && <CartCount>{value.length}</CartCount>}
             </Container>
-        )
-    }
+    );
+}
