@@ -1,9 +1,10 @@
-const HomePage: React.FC = () => {
-  return (
-    <div>
-      {/* Adicione o conteúdo da sua página aqui */}
-    </div>
-  );
-};
+import { FilterBar } from '@/components/filter-bar';
+import styles from './page.module.css';
 
-export default HomePage;
+export default function Home() {
+  return(
+    <main className={styles.maind}>
+      <FilterBar/> 
+    </main>
+  )
+}

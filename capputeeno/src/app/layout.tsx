@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Header } from "@/components/header";
 import { Saira } from "next/font/google";
+import { FilterContextProvider } from "@/contexts/filter-contex";
 import "./globals.css";
 
 const saira = Saira({
@@ -20,8 +21,10 @@ export default function RootLayout({
   return (
     <html lang="en">  
       <body className={saira.className}>
-        <Header />        
-        {children}
+          <FilterContextProvider>
+            <Header />        
+            {children}
+          </FilterContextProvider>
         </body>
     </html>
   );
