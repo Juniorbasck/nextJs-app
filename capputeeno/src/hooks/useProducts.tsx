@@ -19,6 +19,7 @@ const feather = (): AxiosPromise<ProductFetchResponse> => {
                             id
                             name
                             price_in_cents
+                            image_url
                             }
                         }        
              `
