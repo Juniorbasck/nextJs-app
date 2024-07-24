@@ -1,3 +1,4 @@
+import { formatPrice } from "@/utils/format-price"
 import styled from "styled-components"
 
 interface ProductCard{
@@ -42,21 +43,37 @@ const Card = styled.div`
     }
 
     div{
-        width: 228px;
-        height: 1px;
-        top: 340px;
-        margin: 8px 0px;
-        background: var(--shapes);
+        display: flex;
+        align-items: start;
+        justify-content: center;
+        flex-direction: column;
+        padding: 8px 0;
+
+       > div{
+            width: 228px;
+            height: 1px;
+            top: 340px;
+            margin: 8px 0px;
+            padding: 0px;
+            background: var(--shapes);
+        }
+    
     }
+
 `
 
 export function ProductCard(props: ProductCard){
+
+    const price = formatPrice(props.price);
+
     return (
         <Card>   
-            <img src={props.image} />
-            <h3>{props.title}</h3>
-            <div></div>
-            <p>{props.price}</p>
+            <img src={props.image}/>
+             <div>
+                <h3>{props.title}</h3>  
+                <div></div>
+                <p>{price}</p>
+            </div>
         </Card>
     )  
 }
