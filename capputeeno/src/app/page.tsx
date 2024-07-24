@@ -11,7 +11,7 @@ export default function Home() {
   return(
     <QueryClientProvider client={client}>
 
-      <main className={styles.maind}>
+      <main className={styles.main}>
         <FilterBar/> 
         <ProductList/>
         <h1>teste</h1>
