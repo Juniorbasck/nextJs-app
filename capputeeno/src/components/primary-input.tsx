@@ -1,5 +1,5 @@
 import styled from "styled-components"
-import {SearchIcon} from "@/components/search-icon"
+import {SearchIcon} from "@/components/icons/search-icon"
 import { InputHTMLAttributes } from "react"
 
 export const PrimaryInput = styled.input`
@@ -28,13 +28,14 @@ const InputContainer = styled.div`
 `
 
 interface Inputprops extends InputHTMLAttributes<HTMLInputElement>{
-
+    value: string;
+    handleCHange: (value: string) => void;
 }
 
 export function PrimaryInputWithSearchIcon(props: Inputprops){
     return (
         <InputContainer>    
-            <PrimaryInput {...props}/>
+            <PrimaryInput onChange={(event) => props.handleCHange(event.target.value)} {...props}/>
             <SearchIcon/>
         </InputContainer>
     )

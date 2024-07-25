@@ -19,3 +19,32 @@ export function getPriority(priority: PriorityTypes){
     
     return {field: 'sales', order: 'DSC'};
 }
+
+
+export const mountQuey = (type: FilterType,priority: PriorityTypes) => {
+    if(type === FilterType.ALL && priority === PriorityTypes.POPULARITY) return `query {
+                        allProducts(sortField: "sales", sortOrder: "DSC"){
+                            id
+                            name
+                            price_in_cents
+                            image_url
+                            }
+                        }        
+             `
+
+         const sortFilter = getPriority(priority);  
+         const categoryFilter = getCategoty(type);  
+
+        return  `
+        query {
+            allProducts(sortField: "${sortFilter.field}", sortOrder: "${sortFilter.order}", ${categoryFilter ? `filter: { category: "${categoryFilter}"}`: ''}) {
+              id
+              name
+              price_in_cents
+              image_url
+              category
+            }
+          }
+        `
+        
+}       

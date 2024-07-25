@@ -4,9 +4,8 @@ import { useQuery } from "@tanstack/react-query";
 import axios, { AxiosPromise } from "axios";
 import { ProductFetchResponse } from "../types/ProductFetchResponse";
 import { useFilter } from "./use-filter.";
-import { FilterType } from "@/types/filter-type";
-import { getCategoty, getPriority } from "@/utils/grapql-filter";
-import { PriorityTypes } from "@/types/priority-types";
+import { mountQuey } from "@/utils/grapql-filter";
+import { useDeferredValue } from "react";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL as string;;
 
@@ -19,45 +18,22 @@ const feather = (query: string): AxiosPromise<ProductFetchResponse> => {
         API_URL, { query }) 
 }
 
-const mountQuey = (type: FilterType,priority: PriorityTypes) => {
-    if(type === FilterType.ALL && priority === PriorityTypes.POPULARITY) return `query {
-                        allProducts(sortField: "sales", sortOrder: "DSC"){
-                            id
-                            name
-                            price_in_cents
-                            image_url
-                            }
-                        }        
-             `
-
-         const sortFilter = getPriority(priority);  
-         const categoryFilter = getCategoty(type);  
-
-        return  `
-        query {
-            allProducts(sortField: "${sortFilter.field}", sortOrder: "${sortFilter.order}", ${categoryFilter ? `filter: { category: "${categoryFilter}"}`: ''}) {
-              id
-              name
-              price_in_cents
-              image_url
-              category
-            }
-          }
-        `
-        
-}       
-
 export function useProduct(){
 
-    const { type, priority} = useFilter();
+    const { type, priority, seacher} = useFilter();
+    const  searchDeferred = useDeferredValue(seacher);
+
     const query = mountQuey(type, priority);
 
     const { data } = useQuery({
         queryFn: () => feather(query),
         queryKey: ['products', type, priority]
     })
+
+    const products = data?.data?.data?.allProducts
+    const filterProduct = products?.filter(products => products.name.toLowerCase().includes(searchDeferred.toLowerCase()));
     
     return {
-        data: data?.data?.data?.allProducts
+        data: filterProduct
     }
 }
