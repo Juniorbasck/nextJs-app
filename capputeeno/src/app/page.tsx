@@ -14,8 +14,6 @@ export default function Home() {
       <main className={styles.main}>
         <FilterBar/> 
         <ProductList/>
-        <h1>teste</h1>
-        <h1>teste</h1>
       </main>
 
     </QueryClientProvider>

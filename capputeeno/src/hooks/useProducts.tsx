@@ -5,7 +5,8 @@ import axios, { AxiosPromise } from "axios";
 import { ProductFetchResponse } from "../types/ProductFetchResponse";
 import { useFilter } from "./use-filter.";
 import { FilterType } from "@/types/filter-type";
-import { getCategoty } from "@/utils/get-category";
+import { getCategoty, getPriority } from "@/utils/grapql-filter";
+import { PriorityTypes } from "@/types/priority-types";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL as string;;
 
@@ -18,9 +19,9 @@ const feather = (query: string): AxiosPromise<ProductFetchResponse> => {
         API_URL, { query }) 
 }
 
-const mountQuey = (type: FilterType) => {
-    if(type === FilterType.ALL) return `query {
-                        allProducts{
+const mountQuey = (type: FilterType,priority: PriorityTypes) => {
+    if(type === FilterType.ALL && priority === PriorityTypes.POPULARITY) return `query {
+                        allProducts(sortField: "sales", sortOrder: "DSC"){
                             id
                             name
                             price_in_cents
@@ -28,27 +29,32 @@ const mountQuey = (type: FilterType) => {
                             }
                         }        
              `
-        return `
-        query{
-            allProducts(filter: {category: "${getCategoty(type)}"}){
-                id
-                name
-                price_in_cents
-                image_url
-                category
+
+         const sortFilter = getPriority(priority);  
+         const categoryFilter = getCategoty(type);  
+
+        return  `
+        query {
+            allProducts(sortField: "${sortFilter.field}", sortOrder: "${sortFilter.order}", ${categoryFilter ? `filter: { category: "${categoryFilter}"}`: ''}) {
+              id
+              name
+              price_in_cents
+              image_url
+              category
             }
-            }
+          }
         `
+        
 }       
 
 export function useProduct(){
 
-    const { type } = useFilter();
-    const query = mountQuey(type);
+    const { type, priority} = useFilter();
+    const query = mountQuey(type, priority);
 
     const { data } = useQuery({
         queryFn: () => feather(query),
-        queryKey: ['products', type]
+        queryKey: ['products', type, priority]
     })
     
     return {
