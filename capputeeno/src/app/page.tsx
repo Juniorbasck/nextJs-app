@@ -1,17 +1,24 @@
-"use client";
+"use client"
 
-import { FilterBar } from '@/components/filter-bar';
-import styles from './page.module.css';
-import { ProductList } from '@/components/products-list';
-import { Query, QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { DefaultPageLayout } from '@/components/default-page-layout'
+import { FilterBar } from '@/components/filter-bar'
+import { ProductList } from '@/components/products-list'
+import { styled } from 'styled-components'
+
+const PageWrapper = styled.main`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`
 
 export default function Home() {
 
-  const client = new QueryClient();
-  return(
-      <main className={styles.main}>
-        <FilterBar/> 
+  return (
+    <DefaultPageLayout>
+      <PageWrapper>
+        <FilterBar/>
         <ProductList/>
-      </main>
+      </PageWrapper>
+    </DefaultPageLayout>
   )
 }
