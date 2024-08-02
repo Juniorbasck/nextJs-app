@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
 import { Header } from "@/components/header";
 import { Saira } from "next/font/google";
-import { FilterContextProvider } from "@/contexts/filter-contex";
 import "./globals.css";
+import { DefaultProvider } from "@/components/default-provider";
 
 const saira = Saira({
-  weight: ['300', '400', '500', '600'],
-  subsets: ["latin"] });
+  weight: ["300", "400", "500", "600"],
+  subsets: ["latin"],
+});
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -19,13 +20,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">  
+    <html lang="en">
       <body className={saira.className}>
-          <FilterContextProvider>
-            <Header />        
-            {children}
-          </FilterContextProvider>
-        </body>
+        <DefaultProvider>
+          <Header />
+          {children}
+        </DefaultProvider>
+      </body>
     </html>
   );
 }

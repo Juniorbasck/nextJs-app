@@ -9,13 +9,9 @@ export default function Home() {
 
   const client = new QueryClient();
   return(
-    <QueryClientProvider client={client}>
-
       <main className={styles.main}>
         <FilterBar/> 
         <ProductList/>
       </main>
-
-    </QueryClientProvider>
   )
 }
